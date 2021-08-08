@@ -49,6 +49,14 @@ public class Doctor {
 
     }
 
+    public Doctor(String firstName, String lastName, Long uin, Boolean isGP, Speciality speciality) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.uin = uin;
+        this.isGP = isGP;
+        this.speciality = speciality;
+    }
+
     public Doctor(Long id, String firstName, String lastName, Long uin, Boolean isGP, Speciality speciality) {
         this.id = id;
         this.firstName = firstName;
