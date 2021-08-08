@@ -1,17 +1,33 @@
 package com.nbu.javaproject.doctors.speciality;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.nbu.javaproject.doctors.doctor.Doctor;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+
+@Table(name="specialities")
 @Entity(name = "speciality")
 public class Speciality {
 
     @Id
+    @SequenceGenerator(
+            name = "speciality_sequence",
+            sequenceName = "speciality_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "speciality_sequence"
+    )
     private Long id;
     private String name;
 
+    @OneToMany(mappedBy = "speciality")
+    private List<Doctor> doctors;
+
     public Speciality() {
-        
+
     }
 
     public Speciality(Long id, String name) {

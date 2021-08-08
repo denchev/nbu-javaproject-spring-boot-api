@@ -1,12 +1,23 @@
 package com.nbu.javaproject.doctors.doctor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.nbu.javaproject.doctors.speciality.Speciality;
+import com.sun.istack.NotNull;
 
+import javax.persistence.*;
+
+@Table(name="doctors")
 @Entity(name = "doctor")
 public class Doctor {
     @Id
+    @SequenceGenerator(
+            name = "doctor_sequence",
+            sequenceName = "doctor_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "doctor_sequence"
+    )
     private Long id;
 
     @Column(
@@ -29,13 +40,16 @@ public class Doctor {
             nullable = false
     )
     private Boolean isGP; // Is general practitioner
-    private String speciality; // @TODO Connection to speciality entity
+
+    @ManyToOne
+    @JoinColumn(name="speciality_id", nullable = false)
+    private Speciality speciality;
 
     public Doctor() {
 
     }
 
-    public Doctor(Long id, String firstName, String lastName, Long uin, Boolean isGP, String speciality) {
+    public Doctor(Long id, String firstName, String lastName, Long uin, Boolean isGP, Speciality speciality) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -84,11 +98,11 @@ public class Doctor {
         isGP = GP;
     }
 
-    public String getSpeciality() {
+    public Speciality getSpeciality() {
         return speciality;
     }
 
-    public void setSpeciality(String speciality) {
+    public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
     }
 
