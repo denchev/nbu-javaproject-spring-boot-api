@@ -1,6 +1,9 @@
 package com.nbu.javaproject.doctors.patient;
 
+import com.nbu.javaproject.doctors.appointment.Appointment;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Table(name = "patients")
 @Entity(name = "patient")
@@ -37,6 +40,9 @@ public class Patient {
             unique = true
     )
     private String egn;
+
+    @OneToMany(mappedBy = "patient")
+    private Set<Appointment> appointments;
 
     public Patient() {
     }

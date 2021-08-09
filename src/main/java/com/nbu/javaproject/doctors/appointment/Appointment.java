@@ -1,27 +1,46 @@
 package com.nbu.javaproject.doctors.appointment;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.nbu.javaproject.doctors.doctor.Doctor;
+import com.nbu.javaproject.doctors.patient.Patient;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Table(name = "appointments")
 @Entity(name = "appointment")
 public class Appointment {
     @Id
+    @SequenceGenerator(
+            name = "appointment_sequence",
+            sequenceName = "appointment_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "appointment_sequence"
+    )
     private Long id;
-    private Long doctorId;
-    private Long patientId;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
     private LocalDate date;
 
-    public Appointment(Long id, Long doctorId, Long patientId, LocalDate date) {
+    public Appointment(Long id, Doctor doctor, Patient patient, LocalDate date) {
         this.id = id;
-        this.doctorId = doctorId;
-        this.patientId = patientId;
+        this.doctor = doctor;
+        this.patient = patient;
         this.date = date;
     }
 
-    public Appointment(Long doctorId, Long patientId, LocalDate date) {
-        this.doctorId = doctorId;
-        this.patientId = patientId;
+    public Appointment(Doctor doctor, Patient patient, LocalDate date) {
+        this.doctor = doctor;
+        this.patient = patient;
         this.date = date;
     }
 
@@ -37,20 +56,20 @@ public class Appointment {
         this.id = id;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public Long getPatientId() {
-        return patientId;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public LocalDate getDate() {
@@ -65,8 +84,8 @@ public class Appointment {
     public String toString() {
         return "Appointment{" +
                 "id=" + id +
-                ", doctorId=" + doctorId +
-                ", patientId=" + patientId +
+                ", doctorId=" + doctor +
+                ", patientId=" + patient +
                 ", date=" + date +
                 '}';
     }

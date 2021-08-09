@@ -1,9 +1,11 @@
 package com.nbu.javaproject.doctors.doctor;
 
+import com.nbu.javaproject.doctors.appointment.Appointment;
 import com.nbu.javaproject.doctors.speciality.Speciality;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Table(name="doctors")
 @Entity(name = "doctor")
@@ -44,6 +46,9 @@ public class Doctor {
     @ManyToOne
     @JoinColumn(name="speciality_id", nullable = false)
     private Speciality speciality;
+
+    @OneToMany(mappedBy = "doctor")
+    private Set<Appointment> appointments;
 
     public Doctor() {
 
