@@ -55,6 +55,13 @@ public class Patient {
         this.egn = egn;
     }
 
+    public Patient(String firstName, String lastName, Boolean isInsured, String egn) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isInsured = isInsured;
+        this.egn = egn;
+    }
+
     public Long getId() {
         return id;
     }

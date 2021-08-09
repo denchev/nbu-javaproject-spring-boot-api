@@ -4,9 +4,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AppointmentService {
-    private AppointmentRepository appointmentRepository;
+    private final AppointmentRepository appointmentRepository;
 
     public AppointmentService(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
+    }
+
+    public void save(Appointment appointment) {
+        this.appointmentRepository.save(appointment);
     }
 }

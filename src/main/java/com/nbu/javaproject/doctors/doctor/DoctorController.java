@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/v1/doctors")
 public class DoctorController {
-    private DoctorService doctorService;
+    private final DoctorService doctorService;
 
     public DoctorController(DoctorService doctorService) {
         this.doctorService = doctorService;

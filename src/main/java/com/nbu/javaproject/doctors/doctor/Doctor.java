@@ -2,7 +2,6 @@ package com.nbu.javaproject.doctors.doctor;
 
 import com.nbu.javaproject.doctors.appointment.Appointment;
 import com.nbu.javaproject.doctors.speciality.Speciality;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.Set;
