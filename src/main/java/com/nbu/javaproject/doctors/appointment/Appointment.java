@@ -6,7 +6,12 @@ import com.nbu.javaproject.doctors.patient.Patient;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Table(name = "appointments")
+@Table(
+        name = "appointments",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"doctor_id", "patient_id", "date"})
+        }
+)
 @Entity(name = "appointment")
 public class Appointment {
     @Id
