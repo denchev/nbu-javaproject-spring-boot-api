@@ -8,7 +8,11 @@ import com.nbu.javaproject.doctors.patient.Patient;
 import com.nbu.javaproject.doctors.patient.PatientService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/appointments")
@@ -23,27 +27,38 @@ public class AppointmentController {
         this.doctorService = doctorService;
     }
 
+    private Patient extractPatient(String payload) throws JsonProcessingException, IllegalStateException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(payload);
+
+        JsonNode patientNode = jsonNode.get("patient");
+
+        String firstName = patientNode.get("firstName").asText();
+        String lastName = patientNode.get("lastName").asText();
+        String egn = patientNode.get("egn").asText();
+        Boolean isInsured = patientNode.get("isInsured").asBoolean();
+
+        Patient patient = new Patient(firstName, lastName, isInsured, egn);
+
+        return patient;
+    }
+
     @PostMapping(path = "/book")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void bookAppointment(@RequestBody String payload) throws JsonProcessingException {
+    public void bookAppointment(@RequestBody String payload) throws JsonProcessingException, IllegalStateException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(payload);
 
         Long doctorId = jsonNode.get("appointment").get("doctor").asLong();
 
-        String patientFirstName = jsonNode.get("patient").get("firstName").asText();
-        String patientLastName = jsonNode.get("patient").get("lastName").asText();
-        String patientEgn = jsonNode.get("patient").get("egn").asText();
-        Boolean patientIsInsured = jsonNode.get("patient").get("isInsured").asBoolean();
-
-        Patient patient = new Patient(patientFirstName, patientLastName, patientIsInsured, patientEgn);
-        Long patientId = this.patientService.save(patient);
+        Patient patient = this.extractPatient(payload);
+        Patient activePatient = this.patientService.createPatient(patient);
 
         try {
             Appointment appointment = new Appointment(
                     this.doctorService.getDoctorById(doctorId),
-                    this.patientService.getPatientById(patientId),
+                    activePatient,
                     LocalDate.of(2021, 8, 8)
             );
             this.appointmentService.save(appointment);
