@@ -8,12 +8,7 @@ import com.nbu.javaproject.doctors.patient.Patient;
 import com.nbu.javaproject.doctors.patient.PatientService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/appointments")
@@ -46,7 +41,7 @@ public class AppointmentController {
 
     @PostMapping(path = "/book")
     @CrossOrigin(origins = "http://localhost:3000")
-    public void bookAppointment(@RequestBody String payload) throws JsonProcessingException, IllegalStateException {
+    public Appointment bookAppointment(@RequestBody String payload) throws JsonProcessingException, IllegalStateException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(payload);
@@ -64,8 +59,10 @@ public class AppointmentController {
                     date
             );
             this.appointmentService.save(appointment);
+            return appointment;
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
+        return null;
     }
 }
