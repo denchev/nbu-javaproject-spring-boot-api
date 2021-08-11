@@ -4,6 +4,7 @@ import com.nbu.javaproject.doctors.doctor.Doctor;
 import com.nbu.javaproject.doctors.patient.Patient;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Table(
@@ -34,16 +35,16 @@ public class Appointment {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    private LocalDate date;
+    private Timestamp date;
 
-    public Appointment(Long id, Doctor doctor, Patient patient, LocalDate date) {
+    public Appointment(Long id, Doctor doctor, Patient patient, Timestamp date) {
         this.id = id;
         this.doctor = doctor;
         this.patient = patient;
         this.date = date;
     }
 
-    public Appointment(Doctor doctor, Patient patient, LocalDate date) {
+    public Appointment(Doctor doctor, Patient patient, Timestamp date) {
         this.doctor = doctor;
         this.patient = patient;
         this.date = date;
@@ -77,11 +78,11 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public LocalDate getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

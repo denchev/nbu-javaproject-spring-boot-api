@@ -9,6 +9,7 @@ import com.nbu.javaproject.doctors.patient.PatientService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,7 @@ public class AppointmentController {
         JsonNode jsonNode = objectMapper.readTree(payload);
 
         Long doctorId = jsonNode.get("appointment").get("doctor").asLong();
+        Timestamp date = Timestamp.valueOf(jsonNode.get("appointment").get("date").asText());
 
         Patient patient = this.extractPatient(payload);
         Patient activePatient = this.patientService.createPatient(patient);
@@ -59,7 +61,7 @@ public class AppointmentController {
             Appointment appointment = new Appointment(
                     this.doctorService.getDoctorById(doctorId),
                     activePatient,
-                    LocalDate.of(2021, 8, 8)
+                    date
             );
             this.appointmentService.save(appointment);
         } catch (Exception exception) {
