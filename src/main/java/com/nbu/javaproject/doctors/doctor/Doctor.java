@@ -4,6 +4,8 @@ import com.nbu.javaproject.doctors.appointment.Appointment;
 import com.nbu.javaproject.doctors.speciality.Speciality;
 
 import javax.persistence.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Set;
 
 @Table(name="doctors")
@@ -40,6 +42,11 @@ public class Doctor {
     @Column(
             nullable = false
     )
+    private String password = "test123";
+
+    @Column(
+            nullable = false
+    )
     private Boolean isGP; // Is general practitioner
 
     @ManyToOne
@@ -68,6 +75,23 @@ public class Doctor {
         this.uin = uin;
         this.isGP = isGP;
         this.speciality = speciality;
+    }
+
+    private String getMd5(String data) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] passwordMd5 = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for(byte b : passwordMd5) {
+            sb.append(Integer.toHexString((int) (b & 0xff)));
+        }
+        return sb.toString();
+    }
+
+    @PrePersist
+    private void prePersist() throws NoSuchAlgorithmException {
+        // Hash password before save
+        this.setPassword(this.getMd5(this.getPassword()));
     }
 
     public Long getId() {
@@ -116,6 +140,14 @@ public class Doctor {
 
     public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
