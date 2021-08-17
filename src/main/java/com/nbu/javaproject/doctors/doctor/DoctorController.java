@@ -1,10 +1,9 @@
 package com.nbu.javaproject.doctors.doctor;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -12,13 +11,24 @@ import java.util.List;
 public class DoctorController {
     private final DoctorService doctorService;
 
-    public DoctorController(DoctorService doctorService) {
+    DoctorController(DoctorService doctorService) {
         this.doctorService = doctorService;
     }
 
     @GetMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    public List<Doctor> getDoctors() {
-        return this.doctorService.getDoctors();
+    @PreAuthorize("!hasAuthority('USER')")
+    List<Doctor> getDoctors() {
+        List<Doctor> doctors = this.doctorService.getDoctors();
+        if (doctors.size() == 0) {
+            throw new EntityNotFoundException(Doctor.class.toString());
+        }
+        return doctors;
+    }
+
+    @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void login(@RequestBody DoctorCredentials credentials) {
+
     }
 }

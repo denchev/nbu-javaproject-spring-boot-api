@@ -9,6 +9,7 @@ import com.nbu.javaproject.doctors.patient.PatientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/appointments")
@@ -64,5 +65,12 @@ public class AppointmentController {
             System.out.println(exception.getMessage());
         }
         return null;
+    }
+
+    @GetMapping
+    public List<Appointment> getAppointments() {
+        return List.of(
+                new Appointment()
+        );
     }
 }
