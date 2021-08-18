@@ -1,4 +1,4 @@
-package com.nbu.javaproject.doctors.doctor;
+package com.nbu.javaproject.doctors.user.doctor;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +16,13 @@ public class DoctorController {
     }
 
     @GetMapping
+    @RequestMapping(path = "who")
+    String doctorWho() {
+        return "Who?";
+    }
+
+    @GetMapping
     @CrossOrigin(origins = "http://localhost:3000")
-    @PreAuthorize("!hasAuthority('USER')")
     List<Doctor> getDoctors() {
         List<Doctor> doctors = this.doctorService.getDoctors();
         if (doctors.size() == 0) {

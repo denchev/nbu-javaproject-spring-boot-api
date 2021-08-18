@@ -3,9 +3,9 @@ package com.nbu.javaproject.doctors.appointment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nbu.javaproject.doctors.doctor.DoctorService;
-import com.nbu.javaproject.doctors.patient.Patient;
-import com.nbu.javaproject.doctors.patient.PatientService;
+import com.nbu.javaproject.doctors.user.doctor.DoctorService;
+import com.nbu.javaproject.doctors.user.patient.Patient;
+import com.nbu.javaproject.doctors.user.patient.PatientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;

@@ -1,9 +1,8 @@
-package com.nbu.javaproject.doctors.doctor;
+package com.nbu.javaproject.doctors.user.doctor;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DoctorService {

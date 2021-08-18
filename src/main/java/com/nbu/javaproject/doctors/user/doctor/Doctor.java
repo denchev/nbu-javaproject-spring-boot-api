@@ -1,16 +1,20 @@
-package com.nbu.javaproject.doctors.doctor;
+package com.nbu.javaproject.doctors.user.doctor;
 
 import com.nbu.javaproject.doctors.appointment.Appointment;
 import com.nbu.javaproject.doctors.speciality.Speciality;
+import com.nbu.javaproject.doctors.security.config.UserRole;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Table(name="doctors")
 @Entity(name = "doctor")
-public class Doctor {
+public class Doctor implements UserDetails {
     @Id
     @SequenceGenerator(
             name = "doctor_sequence",
@@ -37,12 +41,12 @@ public class Doctor {
             unique = true,
             nullable = false
     )
-    private Long uin;
+    private String uin;
 
     @Column(
             nullable = false
     )
-    private String password = "test123";
+    private String password;
 
     @Column(
             nullable = false
@@ -56,42 +60,28 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private Set<Appointment> appointments;
 
+    private UserRole userRole;
+
     public Doctor() {
 
     }
 
-    public Doctor(String firstName, String lastName, Long uin, Boolean isGP, Speciality speciality) {
+    public Doctor(String firstName, String lastName, String uin, Boolean isGP, Speciality speciality, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.uin = uin;
         this.isGP = isGP;
         this.speciality = speciality;
+        this.password = password;
     }
 
-    public Doctor(Long id, String firstName, String lastName, Long uin, Boolean isGP, Speciality speciality) {
+    public Doctor(Long id, String firstName, String lastName, String uin, Boolean isGP, Speciality speciality) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.uin = uin;
         this.isGP = isGP;
         this.speciality = speciality;
-    }
-
-    private String getMd5(String data) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] passwordMd5 = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for(byte b : passwordMd5) {
-            sb.append(Integer.toHexString((int) (b & 0xff)));
-        }
-        return sb.toString();
-    }
-
-    @PrePersist
-    private void prePersist() throws NoSuchAlgorithmException {
-        // Hash password before save
-        this.setPassword(this.getMd5(this.getPassword()));
     }
 
     public Long getId() {
@@ -118,11 +108,11 @@ public class Doctor {
         this.lastName = lastName;
     }
 
-    public Long getUin() {
+    public String getUin() {
         return uin;
     }
 
-    public void setUin(Long uin) {
+    public void setUin(String uin) {
         this.uin = uin;
     }
 
@@ -142,8 +132,39 @@ public class Doctor {
         this.speciality = speciality;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+        return Collections.singletonList(authority);
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return uin;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {

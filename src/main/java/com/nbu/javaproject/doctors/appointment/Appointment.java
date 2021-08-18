@@ -1,11 +1,10 @@
 package com.nbu.javaproject.doctors.appointment;
 
-import com.nbu.javaproject.doctors.doctor.Doctor;
-import com.nbu.javaproject.doctors.patient.Patient;
+import com.nbu.javaproject.doctors.user.doctor.Doctor;
+import com.nbu.javaproject.doctors.user.patient.Patient;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @Table(
         name = "appointments",

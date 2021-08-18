@@ -1,4 +1,4 @@
-package com.nbu.javaproject.doctors.doctor;
+package com.nbu.javaproject.doctors.user.doctor;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

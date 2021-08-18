@@ -1,8 +1,6 @@
-package com.nbu.javaproject.doctors.patient;
+package com.nbu.javaproject.doctors.user.patient;
 
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class PatientService {

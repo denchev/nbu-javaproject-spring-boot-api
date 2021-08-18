@@ -1,4 +1,4 @@
-package com.nbu.javaproject.doctors.doctor;
+package com.nbu.javaproject.doctors.user.doctor;
 
 public class DoctorCredentials {
     private final String uid;

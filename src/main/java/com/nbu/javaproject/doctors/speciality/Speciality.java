@@ -1,10 +1,9 @@
 package com.nbu.javaproject.doctors.speciality;
 
-import com.nbu.javaproject.doctors.doctor.Doctor;
+import com.nbu.javaproject.doctors.user.doctor.Doctor;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Table(name="specialities")
 @Entity(name = "speciality")
