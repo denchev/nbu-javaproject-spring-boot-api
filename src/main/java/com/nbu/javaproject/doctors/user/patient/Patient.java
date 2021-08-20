@@ -1,13 +1,16 @@
 package com.nbu.javaproject.doctors.user.patient;
 
 import com.nbu.javaproject.doctors.appointment.Appointment;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Table(name = "patients")
 @Entity(name = "patient")
-public class Patient {
+public class Patient implements UserDetails {
     @Id
     @SequenceGenerator(
             name = "patient_sequence",
@@ -111,5 +114,40 @@ public class Patient {
                 ", isInsured=" + isInsured +
                 ", egn='" + egn + '\'' +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

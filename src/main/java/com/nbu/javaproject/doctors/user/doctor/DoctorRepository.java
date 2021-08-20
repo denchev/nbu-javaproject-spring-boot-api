@@ -2,6 +2,8 @@ package com.nbu.javaproject.doctors.user.doctor;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-   Doctor findByUin(String uin);
+   Optional<Doctor> findByUin(String uin);
 }

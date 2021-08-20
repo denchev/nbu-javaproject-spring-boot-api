@@ -134,7 +134,7 @@ public class Doctor implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(UserRole.DOCTOR.name());
         return Collections.singletonList(authority);
     }
 
