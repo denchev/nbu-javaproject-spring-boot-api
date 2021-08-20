@@ -60,7 +60,7 @@ public class Doctor implements UserDetails {
     @OneToMany(mappedBy = "doctor")
     private Set<Appointment> appointments;
 
-    private UserRole userRole;
+    private UserRole userRole = UserRole.DOCTOR;
 
     public Doctor() {
 
@@ -134,7 +134,7 @@ public class Doctor implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(UserRole.DOCTOR.name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + UserRole.DOCTOR.name());
         return Collections.singletonList(authority);
     }
 

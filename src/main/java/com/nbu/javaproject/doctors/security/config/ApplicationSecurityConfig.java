@@ -27,9 +27,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()// Disable for now
+                .csrf().disable() // Disable for now
                 .authorizeRequests()
-                .antMatchers("/api/v*/doctors").hasAnyAuthority()
+                .antMatchers("/").permitAll()
+                .antMatchers("/api/**/doctors").hasRole(UserRole.DOCTOR.name())
                 .anyRequest().authenticated().and().httpBasic();
     }
 
