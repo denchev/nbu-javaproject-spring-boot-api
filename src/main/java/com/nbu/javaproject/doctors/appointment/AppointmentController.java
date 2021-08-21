@@ -35,7 +35,7 @@ public class AppointmentController {
         String egn = patientNode.get("egn").asText();
         Boolean isInsured = patientNode.get("isInsured").asBoolean();
 
-        Patient patient = new Patient(firstName, lastName, isInsured, egn);
+        Patient patient = new Patient(firstName, lastName, isInsured, egn, "");
 
         return patient;
     }

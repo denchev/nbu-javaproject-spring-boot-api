@@ -44,6 +44,11 @@ public class Patient implements UserDetails {
     )
     private String egn;
 
+    @Column(
+            nullable = true
+    )
+    private String password;
+
     @OneToMany(mappedBy = "patient")
     private Set<Appointment> appointments;
 
@@ -58,11 +63,12 @@ public class Patient implements UserDetails {
         this.egn = egn;
     }
 
-    public Patient(String firstName, String lastName, Boolean isInsured, String egn) {
+    public Patient(String firstName, String lastName, Boolean isInsured, String egn, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.isInsured = isInsured;
         this.egn = egn;
+        this.password = password;
     }
 
     public Long getId() {
